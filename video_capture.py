@@ -5,7 +5,7 @@ from pythonsource.main import Main
 main = Main()
 
 class Camera(BaseCamera):
-    video_source = 1
+    video_source = 0
     stopped = False
     process = lambda frame:frame
     

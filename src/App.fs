@@ -27,3 +27,6 @@ let rec pauzeClick(x) =
     startstopbtn.className <- "button is-primary"
  
 startstopbtn.onclick <- pauzeClick
+
+
+hello|>console.log

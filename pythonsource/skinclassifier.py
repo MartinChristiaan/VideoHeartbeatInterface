@@ -7,6 +7,15 @@ class SkinClassifier:
         self.elipse_size = 12
         self.blursize = 5
 
+    def updateClassifier(self,values):
+        avgs = np.array(values[:3],dtype="uint8")
+        varians = np.array(values[3:6],dtype="uint8")
+        self.elipse_size = values[6]
+        self.blursize = values[7]
+        self.lower = (avgs-varians)
+        self.upper = (avgs+varians)
+
+
 
     def apply_skin_classifier(self,frame):
         converted = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)

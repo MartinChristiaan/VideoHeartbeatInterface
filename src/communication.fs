@@ -132,6 +132,12 @@ let setInputData name catagoryname value min max =
   
   http.putRequest "http://127.0.0.1:5000/setInputData" inputs
 
+let putList dest values = 
+  let inputs = values|>Seq.map(fun x -> x.ToString())|>String.concat " "
+  console.log (baseUrl+dest)  
+  http.putRequest (baseUrl+dest) inputs
+ 
+
 let timer = new Timer(100.0)
 let getValues(frequency : float)(callback : float seq -> unit) =
 
