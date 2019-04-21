@@ -1,55 +1,78 @@
-#!/usr/bin/env python
-from importlib import import_module
+from flask import Flask,Response
+from flask import render_template
 import os
-from flask import Flask, render_template, Response ,request
+from os import path
+from flask import request
+import json
 from flask_cors import CORS
-import video_capture 
-
-# Raspberry Pi camera module (requires picamera package)
-# from camera_pi import Camera
-
-class Settings:
-    def __init__(self):
-        self.stopped = False
-        self.prev_frame = []
-app = Flask(__name__)
-CORS(app)
-settings = Settings()
-
-@app.route('/')
-def index():
-    return ""
-
-def gen(camera):
-    """Video streaming generator function."""
-    while True:
-        frame = camera.get_frame()
-        if settings.stopped:    
-            frame = settings.prev_frame
-        else:
-            settings.prev_frame = frame
-        yield (b'--frame\r\n'
-            b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+# Model Definition
+import math
+import serialization
 
 
-@app.route('/video_feed')
-def video_feed():
-    """Video streaming route. Put this in the src attribute of an img tag."""
-    return Response(gen(video_capture.Camera()),
-                    mimetype='multipart/x-mixed-replace; boundary=frame')
+def create_server(uiInstructions,createCamera):
+    """Receives list of uiElements that handle interaction with their specified classes"""
+    app = Flask(__name__)
+    CORS(app)
+    uiElements = []
+    figures = []
+    def getUIInstructions():
+        communicationString = ""       
+        for element in uiInstructions:
+            elementIndex = len(uiElements)
+            uiElements.append(element)
+            instructions = element.getInstructions()
+            print(instructions)
+            noitems = len(instructions)+1 # for index
 
-@app.route('/toggleStop')
-def toggleStop():
-    settings.stopped = not settings.stopped
-    return ""
-@app.route('/updateClassifier')
-def updateClassifier(methods=['PUT']):
-    data = request.form["data"]
-    print("data")
-    values = [float(el) for el in data.split()]  
-    video_capture.main.skinClassifier.updateClassifier(values)
-    return ""
+            instructions = [str(value) for value in instructions]            
+            if instructions[0] == "figure":
+                figures.append(element)
+                                            # no items , elementype(example = slider) , index to retrieve element, the rest of the instructions 
+            communicationString+= ",".join([str(noitems),str(elementIndex)]+instructions)+","
+
+        print(communicationString)
+        return communicationString[:-1]
+
+    instructionstring = getUIInstructions()
+
+    @app.route("/")
+    @app.route('/getInstructions')
+    def getInstructions():
+        return instructionstring
+
+    @app.route('/UIUpdate',methods=['PUT'])
+    def updateField():
+        value = request.form['value']
+        uiindex = int(request.form['index'])
+        uiElement = uiElements[uiindex]
+        uiElement.updateValue(value)
+        uiElement.performUpdate()
+        #serialization.saveJson(uiElement.myclass)
+        return "OK"
+
+    def gen(camera):
+        while True:
+            frame = camera.get_frame()
+            yield (b'--frame\r\n'
+                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
 
-if __name__ == '__main__':
-    app.run(debug = True,threaded=True)
+    @app.route('/video_feed')
+    def video_feed():
+        return Response(gen(createCamera()),
+                        mimetype='multipart/x-mixed-replace; boundary=frame')
+    @app.route('/figureUpdate')
+    def figureUpdates():
+        communicationstring= ""
+        for figure in figures:
+            instructions = [str(instr) for instr in figure.getUpdateInstructions()]
+            communicationstring+= ",".join(instructions)+","
+        
+        return communicationstring[:-1]        
+    
+    return app
+
+
+
+

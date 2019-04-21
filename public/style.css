@@ -16,7 +16,7 @@
 .maincontrol
 {
     display: grid;
-    grid-template-columns : 1fr 1fr 1fr 1fr 1fr 1fr
+    grid-template-columns : 1fr 1fr 1fr 1fr 1fr 1fr 1fr
 }
 .controlcolumn
 {
@@ -27,6 +27,10 @@
     display: grid;
     grid-template-columns : 1fr 1fr;
     /* grid-template-rows : repeat(70,100px);*/ 
-    grid-auto-rows: 70px;}
+    grid-auto-rows: 70px;
+}
+.figureContainer
+{
+    height: 300px;
 
 }

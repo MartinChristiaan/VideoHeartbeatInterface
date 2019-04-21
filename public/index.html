@@ -14,43 +14,22 @@
 
   <!-- <canvas id="myChart" width="400" height="400"></canvas> -->
     <div class="maincontainer">
+        
+            <!-- <input type="checkbox" class="switch is-rounded" checked="false">
+            <label></label> -->
+      
         <div class="controlcolumn box" id="control">
           
 
         </div>
-        <div class="vizualcolumn card" id="visual">
-            <div class="card-image"> 
-                <!-- <img src="http://127.0.0.1:5000/video_feed"> -->
-            </div>
-            <div class="card-footer">
-                <button id="StartStop" class="button is-danger">Pauze</button>
-                <button class="button white">Resolution : </p> 
-                <div class="dropdown">
-                    <div class="dropdown-trigger">
-                      <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
-                        <span>1280 x 720</span>
-                        <span class="icon is-small">
-                          <i class="fas fa-angle-down" aria-hidden="true"></i>
-                        </span>
-                      </button>
-                    </div>
-                    <div class="dropdown-menu" id="dropdown-menu" role="menu">
-                      <div class="dropdown-content">
-                        <a href="#" class="dropdown-item is-active">
-                          1280 x 720
-                        </a>
-                        <a class="dropdown-item">
-                            640 × 480 
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                
+        <div class="vizualcolumn box" id="visual">
+          <img src="http://127.0.0.1:5000/video_feed">
+          
         </div>
 
     </div>
- 
- 
+  
+  
   <script src="chart.js"></script>
   <script src="moment.js"></script>
   <script src="chartjs-plugin-streaming.js"></script>

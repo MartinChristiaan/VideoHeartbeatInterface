@@ -1,34 +1,27 @@
 import cv2
 from base_camera import BaseCamera
-from pythonsource.main import Main
+import time
 
-main = Main()
+
+
+
+# Must be set from server
+main = ""
 
 class Camera(BaseCamera):
-    video_source = 0
-    stopped = False
-    process = lambda frame:frame
-    
-    @staticmethod
-    def set_process(process):
-        Camera.process = process
-
-    @staticmethod
-    def set_video_source(source):
-        Camera.video_source = source
-        
     @staticmethod
     def frames():
-        camera = cv2.VideoCapture(Camera.video_source)
-        camera.set(3, 1280)
-        camera.set(4, 720)
-        if not camera.isOpened():
-            raise RuntimeError('Could not start camera.')
-
         while True:
             # read current frame
-            _, img = camera.read()
-            result = main.main(img)     
+            # if main.VideoSettings.cameraNeedsChange:
+            #         camera = cv2.VideoCapture(main.VideoSettings.selectedCamera)
+            #         res = main.VideoSettings.resolution
+            #         if res[0] > 0:
+            #             camera.set(3, main.VideoSettings.resolution[0])
+            #             camera.set(4, main.VideoSettings.resolution[1])
+            #         main.VideoSettings.cameraNeedsChange = False
+            
+            result = main.main()     
             # Put update loop here
             # encode as a jpeg image and return it
             yield cv2.imencode('.jpg', result)[1].tobytes()

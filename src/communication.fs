@@ -10,8 +10,9 @@ open Fable.PowerPack
 open Fable.PowerPack.Fetch
 
 type HTTPWrapper = 
-    abstract getRequest : string -> string
-    abstract putRequest  : string -> string -> unit
+    abstract updateField : string -> string -> string  -> unit
+
+
 
 type SliderParam = 
   {
@@ -24,7 +25,6 @@ type SliderParam =
 [<Import("*", "./httpWrapper")>]
 let http : HTTPWrapper = jsNative
 
-let baseUrl = "http://127.0.0.1:5000/"
 // let communicate() = 
 //     http.getRequest("http://127.0.0.1:5000/timestep")
 //     |>console.log
@@ -41,114 +41,49 @@ let range min max xs =
     Array.skip ((Array.length xs) - min) xs|>Array.take delta
     
 
+let BaseURL = "http://127.0.0.1:5000/"
 
+let getInstructionsURL = "getInstructions"
+let updateUIURL = "UIUpdate"
+let figureUpdateURL = "figureUpdate"
 
-let removeChar (unwanted : string) (input:string)=
-    input.Replace(unwanted,"")
+let UpdateField fieldname value  = 
+  http.updateField (BaseURL+updateUIURL) fieldname value  
 
-type NameValuePair =
-  {
-    name:string;
-    value : float;
-  }
-
- type InputData =
-  {
-    name:string;
-    value : float;
-    min : float;
-    max : float;
-  }
+ 
 let (<*>) fs xs = Array.map2 (fun f x -> f x) fs xs
 let map3 f xs bs cs = Array.map2 f xs bs <*> cs
 let map4 f xs bs cs ds = map3 f xs bs cs <*> ds
+let map5 f xs bs cs ds es = map4 f xs bs cs ds <*>  es
 
-let everyNth n offset seq = 
-  seq |> Array.mapi (fun i el -> el, i)              // Add index to element
-      |> Array.filter (fun (el, i) -> i % n = offset) // Take every nth element
-      |> Array.map fst   
+// let getNameValuePairsFromJson (text:string) =
+//     let itemstxt = text|>removeChar "["|> removeChar "]" |> removeChar "\""|> removeChar " "
+//     let items = itemstxt.Split ','
+//     let noItems = items.Length
+//     let names = items|>Seq.take(noItems/2)
+//     let values = items|>last(noItems/2)|> Seq.map float
+//     Seq.map2(fun name valu -> {name=name;value=valu}) names values
 
-type Category = 
-  {
-    name : string;
-    noItems : int;
-  }
 
-let getInputDataFromJson (text:string) =
-    console.log text
-    let itemstxt = text|>removeChar "["|> removeChar "]" 
-                  |> removeChar "\""|>removeChar","|>removeChar"'"
-                  |> removeChar "("|> removeChar ") "|>removeChar"{"|>removeChar"}"|>removeChar":"
-    let items_categories = itemstxt.Split '_'
-    let categories = items_categories.[1].Split ' '
-    
-    let catagorynames =  categories|> everyNth 2 0
-    let catagoryNOitems =  categories|> everyNth 2 1|> Array.map int // number of items per category
-    
-    
-    let items = items_categories.[0].Split ' '
-    let names = items|>everyNth 4 0
-    let values = items|>everyNth 4 1|> Array.map float
-    let mins = items|>everyNth 4 2|> Array.map float
-    let maxs = items|>everyNth 4 3|> Array.map float    
-    
-    let idata = map4(fun name valu min max -> {name=name;value=valu;min=min; max =max}) names values mins maxs
-    let categories = Array.map2(fun name noitems -> {name=name; noItems = noitems}) catagorynames catagoryNOitems
-    idata,categories
-let getNameValuePairsFromJson (text:string) =
-    let itemstxt = text|>removeChar "["|> removeChar "]" |> removeChar "\""|> removeChar " "
-    let items = itemstxt.Split ','
-    let noItems = items.Length
-    let names = items|>Seq.take(noItems/2)
-    let values = items|>last(noItems/2)|> Seq.map float
-    Seq.map2(fun name valu -> {name=name;value=valu}) names values
-
-let getValuesFromJson (text:string) =
-    let itemstxt = text|>removeChar "["|> removeChar "]" |> removeChar "\""|> removeChar " "
-    itemstxt.Split ','|> Seq.map float
     
     // let statepairs = states|>Seq.map (fun st -> st.Split)
 
-let getRequest req = 
-  fetch (baseUrl+req) []
+let getRequest(target:string)(callback : string -> unit) =
+    fetch (BaseURL+target) []
     |> Promise.bind (fun res -> res.text())
-    |> ignore
-
-let getStates(callback : NameValuePair seq -> unit) =
-    let onResult = getNameValuePairsFromJson>>callback
-    fetch "http://127.0.0.1:5000/states" []
-    |> Promise.bind (fun res -> res.text())
-    |> Promise.map onResult
-
-let getInputs(callback : InputData array * Category array -> unit) =
-    let onResult = getInputDataFromJson>>callback
-    fetch "http://127.0.0.1:5000/inputData" []
-    |> Promise.bind (fun res -> res.text())
-    |> Promise.map onResult
-
-let setInputData name catagoryname value min max = 
-  let inputs = [value; min; max]|>Seq.map(fun x -> x.ToString())|>Seq.append [catagoryname; name]
-               |>String.concat " "
-  
-  http.putRequest "http://127.0.0.1:5000/setInputData" inputs
-
-let putList dest values = 
-  let inputs = values|>Seq.map(fun x -> x.ToString())|>String.concat " "
-  console.log (baseUrl+dest)  
-  http.putRequest (baseUrl+dest) inputs
- 
-
-let timer = new Timer(100.0)
-let getValues(frequency : float)(callback : float seq -> unit) =
+    |> Promise.map callback
 
 
-    let onResult = getValuesFromJson>>callback
-    let elapsed x =      
-      
-      fetch "http://127.0.0.1:5000/timestep" []
+
+    
+let timedGetRequest(callback : string -> unit) =
+      promise {
+        do! Promise.sleep 60
+        let! res = fetch (BaseURL+figureUpdateURL) []
+        return res
+      }
       |> Promise.bind (fun res -> res.text())
-      |> Promise.map onResult|>ignore
-    timer.Elapsed.Add elapsed
+      |> Promise.map callback|>ignore
 
 
 

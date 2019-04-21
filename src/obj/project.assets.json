@@ -179,7 +179,7 @@
   },
   "libraries": {
     "Fable.Core/2.0.3": {
-      "sha512": "jui1T8iAkQyP2G54ci3Zjn381Bdk+cO5gdGkKmmJ4uKJxJSRU8LV8ZP2ymJ1jFQcqIsDwh/VdkrnMZsefZXnoQ==",
+      "sha512": "Kq4XnHX6BQ8/cDaRzusJ7uXpkty+TE/RAOxsxIB3Vt88EhWDdTeOI+RMDvWGltsCrIHB9AT9S0jS9oaVkqvCbg==",
       "type": "package",
       "path": "fable.core/2.0.3",
       "files": [
@@ -188,11 +188,12 @@
         "fable.core.2.0.3.nupkg.sha512",
         "fable.core.nuspec",
         "lib/netstandard2.0/Fable.Core.dll",
-        "lib/netstandard2.0/Fable.Core.xml"
+        "lib/netstandard2.0/Fable.Core.xml",
+        "paket-installmodel.cache"
       ]
     },
     "Fable.Elmish/2.0.0": {
-      "sha512": "zrg+vDk6HI4SnZy34nYuFovKQNm5Y+lZ5wEeZZQERpl5fgaJ3WpN9bi6yvi5dCcnTD0aO2kdNWkjlU1UXIs6gg==",
+      "sha512": "evowsP1xwY2q8tj0wuS/bQEFnlYnl9MJrkxbB5khDZXID4TtJp5W/Em/i1A23OuIJWeHizniUI5y4h1+gP7I9Q==",
       "type": "package",
       "path": "fable.elmish/2.0.0",
       "files": [
@@ -209,7 +210,7 @@
       ]
     },
     "Fable.Elmish.React/2.2.0": {
-      "sha512": "NlLBYJx6wvv7Omr9goU7D9unOnvQ8foFRRaRqqLIcShn8D/5fh68KK/ROvZIZOoLIj0VCSaTjLAVFDGggG2oQg==",
+      "sha512": "ors/8K7wXVbMktYNxlarcGE/apN+xUEgtkQd+h3woIZg/KMO7gQIMcIiR0OnwLuTbnQXFauQ2QHYOkjgd7vu1Q==",
       "type": "package",
       "path": "fable.elmish.react/2.2.0",
       "files": [
@@ -222,7 +223,8 @@
         "fable/react-native.fs",
         "fable/react.fs",
         "lib/netstandard2.0/Fable.Elmish.React.dll",
-        "lib/netstandard2.0/Fable.Elmish.React.xml"
+        "lib/netstandard2.0/Fable.Elmish.React.xml",
+        "paket-installmodel.cache"
       ]
     },
     "Fable.Import.Browser/1.3.0": {
@@ -239,7 +241,7 @@
       ]
     },
     "Fable.PowerPack/2.0.1": {
-      "sha512": "9F0u5oGfZ4gegAd39PZd/2gy4Us58SxzqISZF2qRL7eIF6+jCWvj5KybBM2bHgYC789D9A4F3lKLpCH5eKXwUg==",
+      "sha512": "VxHGkskMnijSZppjmdL/SZOrechv+AbhUqBJS2J+fZBDRZrO2iDd6uRAF4lmHggHtwYtXBWFkn/7/dPgkuFEVA==",
       "type": "package",
       "path": "fable.powerpack/2.0.1",
       "files": [
@@ -264,7 +266,7 @@
       ]
     },
     "Fable.React/4.0.1": {
-      "sha512": "KjKOAZguauxxp9DVmHM/MUptz7Wig2YTVWovEim2wA5IdPN5eWueJOYUkHBjKWq6//gzv0dbb4qbu80YyiJqsw==",
+      "sha512": "aV1n6LQfdvTK+t3Cq1gYiKfr8UfCJhfJkaLxk2qXI91JWlMw76fkEuBy1I8g7UgF07n6wwzR8KOnIb4M3JlN1g==",
       "type": "package",
       "path": "fable.react/4.0.1",
       "files": [
@@ -282,7 +284,7 @@
       ]
     },
     "FSharp.Core/4.5.2": {
-      "sha512": "apbdQOjzsjQ637kTWQuW29jqwY18jsHMyNC5A+TPJZKFEIE2cIfQWf3V7+mXrxlbX69BueYkv293/g70wuXuRw==",
+      "sha512": "Pe3EDp9oBjQ3c3fvZAJsw7XFLHECS3zn3P7MSqsJy3sFYR6jvTgxxnCFeePR1JHiWyZ3bm+RZAjchqVYk61adA==",
       "type": "package",
       "path": "fsharp.core/4.5.2",
       "files": [
@@ -326,12 +328,11 @@
         "lib/netstandard1.6/ru/FSharp.Core.resources.dll",
         "lib/netstandard1.6/tr/FSharp.Core.resources.dll",
         "lib/netstandard1.6/zh-Hans/FSharp.Core.resources.dll",
-        "lib/netstandard1.6/zh-Hant/FSharp.Core.resources.dll",
-        "paket-installmodel.cache"
+        "lib/netstandard1.6/zh-Hant/FSharp.Core.resources.dll"
       ]
     },
     "Microsoft.NETCore.Platforms/1.1.0": {
-      "sha512": "kz0PEW2lhqygehI/d6XsPCQzD7ff7gUJaVGPVETX611eadGsA3A877GdSlU0LRVMCTH/+P3o2iDTak+S08V2+A==",
+      "sha512": "bLpT1f/SFlO1CzqXG12KnJzpZs6lv24uX2Rzi4Fmm0noJpNlnWRVryuO3yK18Ca04t/YHcO1e1Z0WDfjseqNzw==",
       "type": "package",
       "path": "microsoft.netcore.platforms/1.1.0",
       "files": [
@@ -346,7 +347,7 @@
       ]
     },
     "NETStandard.Library/2.0.3": {
-      "sha512": "3HrnEsmqLjvveNL+gHQfP+i+9eL4Sg4LPr9fsKul47iWNWFU9mCChd1CmBoybDm+odrFUG4EMqXhxpMTXQLYsA==",
+      "sha512": "IPw7J1ThImD/gTGAGJWDUpp1CgnKPh33xszVwFAfgesq1o9xL3JhhFxVDWoIT4RbyDpv4tx2R5iNFaU+k93lmA==",
       "type": "package",
       "path": "netstandard.library/2.0.3",
       "files": [
@@ -475,7 +476,7 @@
       ]
     },
     "Thoth.Json/2.0.0": {
-      "sha512": "PQvKAB6YJSiMDYZVooB3gY3Z6d3WiZIQzysKwnM9G0Wfb2hxQtC2X3sj1F/Ze+0F5ur7zlt+/SKXaenrZYcSlQ==",
+      "sha512": "zYwWFzn62/3zHAPIMbCSxUJhME+LVqjeisR5tGS2Mr3gYREhf0j7RfQte3gSqFjgy4m6ZqqBVL9e97VzG6echw==",
       "type": "package",
       "path": "thoth.json/2.0.0",
       "files": [
@@ -508,17 +509,17 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\marti\\source\\repos\\VideoHeartbeatInterface\\src\\App.fsproj",
+      "projectUniqueName": "C:\\Users\\marti\\Source\\Repos\\RSD_Fable\\src\\App.fsproj",
       "projectName": "App",
-      "projectPath": "C:\\Users\\marti\\source\\repos\\VideoHeartbeatInterface\\src\\App.fsproj",
+      "projectPath": "C:\\Users\\marti\\Source\\Repos\\RSD_Fable\\src\\App.fsproj",
       "packagesPath": "C:\\Users\\marti\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\marti\\source\\repos\\VideoHeartbeatInterface\\src\\obj\\",
+      "outputPath": "C:\\Users\\marti\\Source\\Repos\\RSD_Fable\\src\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\marti\\source\\repos\\VideoHeartbeatInterface\\NuGet.Config",
+        "C:\\Users\\marti\\Source\\Repos\\RSD_Fable\\NuGet.Config",
         "C:\\Users\\marti\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],

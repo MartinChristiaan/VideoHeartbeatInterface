@@ -1,4 +1,3 @@
-
 module Layout
 open Fable.Import
 open Fable
@@ -10,14 +9,19 @@ open Browser
 open Fable.Core.JsInterop
 open Communication
 let controldiv = document.getElementById("control")
+let visualdiv = document.getElementById("visual")
 
+let createElement eltype elclass =
+    let el = document.createElement(eltype)
+    el.className <- elclass
+    el
 
 type layoutWrapper = 
     abstract AddToParent : HTMLElement -> HTMLElement -> unit
     abstract CreateSlider  : float -> float -> float -> (float -> unit) -> HTMLElement
     abstract CreateNumericInput  : float -> (float -> unit) -> HTMLElement
     abstract AdjustNumericInput  : string -> float -> (float -> unit) -> HTMLElement
-    
+    abstract SetType  :  string -> HTMLElement-> HTMLElement
 // type SliderParam = 
 //   {
 //     name : string;
@@ -26,77 +30,32 @@ type layoutWrapper =
 //     value : float;    
 //   }
 
-let inline (<!>) f xList = List.map f xList
-
-let inline (<*>) gList xList = List.map2 (id) gList xList
-
-let map4 f w x y z = f <!> w <*> x <*> y <*> z
-let map5 f v w x y z = f <!> v <*> w <*> x <*> y <*> z
-let map6 f u v w x y z = f <!> u <*> v <*> w <*> x <*> y <*> z
-
 [<Import("*", "./uiWrapper")>]
 let uiutil : layoutWrapper = jsNative
 
-let createSliderWidget label min max defaultVal onValueChange =
-    let sliderTextContainer = document.createElement("div")
-    console.log "create"
-    sliderTextContainer.setAttribute("class","column has-text-centered")
+ 
+let addToControl element = uiutil.AddToParent controldiv element
 
+let addChildren parent children =
+    children|>Seq.iter(fun child -> uiutil.AddToParent parent child)
+    
+
+let createDefaultUIHeader label =
     let text = document.createElement("p")
     text.className <- "is-size-7"
-    let mutable value = defaultVal
+    text.innerText <- label
+    text
 
-    let onSliderValueChange newvalue =
-       value<-newvalue
-       text.innerText <- label + " : "+ value.ToString()
-       onValueChange value
-    onSliderValueChange value
-    
-    let slider = uiutil.CreateSlider min max value onSliderValueChange
+let createStandardUIContainer header element = 
+    let defaultUIContainer = document.createElement("div")  
+    defaultUIContainer.setAttribute("class","column has-text-centered")
+    addChildren defaultUIContainer [header; element]
+    defaultUIContainer
 
-    text|>uiutil.AddToParent controldiv        
-    slider|> uiutil.AddToParent sliderTextContainer 
-    sliderTextContainer|> uiutil.AddToParent controldiv
-    
-open System.Collections.Generic
-open System.Collections.Generic
-
-
-let values = List([20.0;20.0;20.0;10.0;10.0;10.0;3.0;15.0;])
-let mins = List.init values.Count (fun i -> 0.0)
-let maxs_ = List.init (values.Count-2) (fun i -> 255.0)
-let maxs = maxs_ @ [20.0;20.0] 
-
-let sendNewValues() =
-    putList "updateClassifier" values
-let titles = ["Hue Avg";"Sat Avg"; "V Avg"; "Hue Var";"Sat Var"; "V Var"; "ElipseSize" ;"Blur"]
-let updateFuncs = List.init values.Count (fun i -> ((fun x -> values.[i]<- x;sendNewValues() )))
-
-let button = document.createElement("button")
-
-for i in [0..7] do
-    createSliderWidget titles.[i] mins.[i] maxs.[i] (values|>Seq.toList).[i] updateFuncs.[i]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
+let createElementFromHTML html =
+    let div = document.createElement("div")
+    div.innerHTML <- html
+    div.firstChild
 
 
 // let param = {name = "TestParameter"; min = 0.0; max = 100.0; value = 60.0 }

@@ -40,6 +40,11 @@ module.exports = {
             }
         console.log(input.value)
         return input
+    },
+    SetType:function(type,element)
+    {
+        element.type = type
+        return element
     }
     
 }
