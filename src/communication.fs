@@ -41,7 +41,7 @@ let range min max xs =
     Array.skip ((Array.length xs) - min) xs|>Array.take delta
     
 
-let BaseURL = "http://127.0.0.1:5000/"
+let BaseURL = "http://192.168.178.66:5000/"
 
 let getInstructionsURL = "getInstructions"
 let updateUIURL = "UIUpdate"

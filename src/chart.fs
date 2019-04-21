@@ -78,9 +78,9 @@ let updateFigure(figure:obj, x:float array, datasets:Dataset array)(instructions
     let addedDataValues = newValues|>Array.tail
 
     let addValues existing newvalues =
-        Array.append existing newvalues |> last 10
+        Array.append existing newvalues |> last 200
 
-
+ 
 
     let addValueToDataset(ds:Dataset) (values : float array) =
         {ds with data = addValues ds.data values}
