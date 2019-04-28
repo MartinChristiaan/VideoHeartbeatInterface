@@ -1,6 +1,6 @@
 module.exports = {
     // parseJson : string -> string
-    CreateChart: function (x,dataconfig,ctx) {
+    CreateChart: function (x,xlabel,dataconfig,ctx) {
         var chartColors = [
              'rgb(255, 99, 132)',
              'rgb(255, 159, 64)',
@@ -52,7 +52,11 @@ module.exports = {
                 xAxes: [{
                     gridLines: {
                         color: "rgba(0, 0, 0, 0)",
-                    }
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: xlabel
+                      }
                 }],
                 yAxes: [{
                     ticks: {

@@ -6,7 +6,7 @@ open Chart
 open Fable.Import.Browser
 open Receiver
 open Communication
-open Sliders
+open UIElements
 open Dropdowns
 
 let createElementFromInstructions (classMap : Map<string,HTMLElement> )  (instructions : string array)= 
@@ -22,6 +22,7 @@ let createElementFromInstructions (classMap : Map<string,HTMLElement> )  (instru
         |_ when uitype = "slider" -> createSliderWidget uiinstructions 
         |_ when uitype = "dropdown" -> createDropDownMenu uiinstructions
         |_ when uitype = "switch" -> createSwitchWidget uiinstructions 
+        |_ when uitype = "button" -> createButtonWidget uiinstructions 
     let foundClass = classMap.TryFind className
     let classContainer,newclassMap = 
         match foundClass with
@@ -61,8 +62,8 @@ let handleUIInstructions data =
     |>Map.toList|>List.map createClassContainer|> addChildren controldiv    
 
     let createdfigures = List.map createFigure figureInstructions
-    createdfigures|>List.map(fun (x,canvas,y,z) -> canvas)|> addChildren visualdiv  // Adds vizualdivs 
-    let figures = createdfigures|>List.map(fun (x,canvas,y,z) -> x,y,z)
+    createdfigures|>List.map(fun (x,canvas,y,z,update) -> canvas)|> addChildren visualdiv  // Adds vizualdivs 
+    let figures = createdfigures|>List.map(fun (x,canvas,y,z,update) -> x,y,z,update)
     let curriedUpdateFigures = updateFigures figures
     timedGetRequest (Receiver.getPlotDataFromJson>>curriedUpdateFigures)
 
@@ -75,9 +76,6 @@ let handleUIInstructions data =
 
 
 getRequest getInstructionsURL handleUIInstructions|>ignore
-
-
-
 
 
 // let onStatesReceived states =

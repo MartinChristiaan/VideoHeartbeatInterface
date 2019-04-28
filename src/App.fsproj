@@ -8,7 +8,7 @@
     <Compile Include="receiver.fs" />
     <Compile Include="layout.fs" />
     <Compile Include="dropdowns.fs" />
-    <Compile Include="sliders.fs" />
+    <Compile Include="UIElements.fs" />
     <Compile Include="chart.fs" />
     <Compile Include="App.fs" />
   </ItemGroup>

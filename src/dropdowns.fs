@@ -71,7 +71,9 @@ let createDropDownMenu (instructions : string array)  =
 
     for i in [0..dropDownElements.Length-1] do
         dropDownElements.[i]|>setOnSelect
-    dropDownOnSelect dropDownElements.[0] ""
+
+    let defaultIdx = options|>Array.findIndex(fun x->x = defaultValue)
+    dropDownOnSelect dropDownElements.[defaultIdx] defaultIdx
    
     addChildren content dropDownElements
     addChildren menu [content]

@@ -41,7 +41,7 @@ let range min max xs =
     Array.skip ((Array.length xs) - min) xs|>Array.take delta
     
 
-let BaseURL = "http://192.168.178.66:5000/"
+let BaseURL = "http://127.0.0.1:5000/"//"http://192.168.178.66:5000/"
 
 let getInstructionsURL = "getInstructions"
 let updateUIURL = "UIUpdate"
@@ -67,6 +67,10 @@ let map5 f xs bs cs ds es = map4 f xs bs cs ds <*>  es
 
     
     // let statepairs = states|>Seq.map (fun st -> st.Split)
+let getGlobalRequest(target:string)(callback : string -> unit) =
+    fetch (target) []
+    |> Promise.bind (fun res -> res.text())
+    |> Promise.map callback
 
 let getRequest(target:string)(callback : string -> unit) =
     fetch (BaseURL+target) []

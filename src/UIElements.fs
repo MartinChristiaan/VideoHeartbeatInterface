@@ -1,4 +1,4 @@
-module Sliders
+module UIElements
 open Fable.Import.Browser
 open Layout
 open Communication
@@ -7,7 +7,7 @@ open Communication
 let createSliderWidget (uiData : string array) =
     let widgetContainer = document.createElement("div")
     widgetContainer.setAttribute("class","widgetcontainer")
-    console.log uiData
+   
     let index = uiData.[0]
     let uiname = uiData.[1]
     let min = uiData.[2]|>float
@@ -28,7 +28,6 @@ let createSliderWidget (uiData : string array) =
 let createSwitchWidget (uiData : string array) =
     let widgetContainer = document.createElement("div")
     widgetContainer.setAttribute("class","widgetcontainer")
-    console.log uiData
     let index = uiData.[0]
     let uiname = uiData.[1]
     let mutable isChecked = uiData.[2] = "True"
@@ -38,7 +37,7 @@ let createSwitchWidget (uiData : string array) =
     
     let switch = createElement "input"  "switch is-rounded"|>uiutil.SetType "checkbox"
     let communicateInputData () = 
-        console.log isChecked
+  
         isChecked <-  not isChecked
         
         if isChecked then
@@ -56,3 +55,22 @@ let createSwitchWidget (uiData : string array) =
     addChildren subdiv [switch;label] 
     subdiv.onclick <- (fun x -> communicateInputData())
     createStandardUIContainer text subdiv    
+
+let createButtonWidget (uiData : string array) =
+    
+    let index = uiData.[0]
+    let uiname = uiData.[1]
+    let communicateInputData() = 
+        UpdateField index ("_") 
+    let button = createElement "button" "button"
+    button.innerText<-uiname
+    button.onclick <- (fun x -> communicateInputData())
+    let subdiv = createElement "div" ""
+    createStandardUIContainer subdiv button  
+
+let orderHearbeatWidget = 
+    let svgString = getGlobalRequest "https://vectr.com/mtin/a8oYzV9MHR.svg?width=640&height=640&select=a8oYzV9MHRpage0"
+    document.getElementById("textid").children.[0].textContent<- "30"
+
+let createHeartbeatWidget = 
+
