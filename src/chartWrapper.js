@@ -1,6 +1,6 @@
 module.exports = {
     // parseJson : string -> string
-    CreateChart: function (x,xlabel,dataconfig,ctx) {
+    CreateChart: function (xvalues,yvalues,labels,ctx) {
         var chartColors = [
              'rgb(255, 99, 132)',
              'rgb(255, 159, 64)',
@@ -13,10 +13,10 @@ module.exports = {
 
         
     let datasets = []
-        for (let i = 0; i < dataconfig.length; i++) {
+        for (let i = 0; i < labels.length; i++) {
             d = {
-                label : dataconfig[i].label,
-                data : dataconfig[i].data,
+                label : labels[i],
+                data : yvalues[i],
                 backgroundColor : 'rgba(0, 0, 0, 0)',
                 borderColor : chartColors[i],
                 pointRadius: 0,
@@ -29,7 +29,7 @@ module.exports = {
         
 
         data:{
-            labels : x,
+            labels : xvalues,
             datasets : datasets
         },
         options: {
@@ -50,12 +50,17 @@ module.exports = {
             },
             scales: {
                 xAxes: [{
+                    // type: 'time',
+                    // time: {
+                    //     unit: 'second'
+                    // }, 
+
                     gridLines: {
                         color: "rgba(0, 0, 0, 0)",
                     },
                     scaleLabel: {
                         display: true,
-                        labelString: xlabel
+                        labelString: "Time (s)"
                       }
                 }],
                 yAxes: [{
@@ -72,8 +77,29 @@ module.exports = {
  
     return myChart
     },
-    UpdateData:function(chart,x,datasetsBasic)
+
+    AppendTimeSeries:function(chart,values,time)
     {
+        for (let i = 0; i < values.length; i++) {
+            chart.data.datasets[i].data.push(values[i]);            
+        }        
+        chart.data.labels.push(time)
+        if(chart.data.labels.length > 400)
+        {
+            chart.data.labels.shift()
+            for (let i = 0; i < values.length; i++) {
+                chart.data.datasets[i].data.shift();            
+            }   
+        }
+
+
+        chart.update()
+    },
+    
+
+    UpdateData:function(ctx,x,datasetsBasic)
+    {
+        var chart = ctx.data('graph');
         for (let i = 0; i < chart.data.datasets.length; i++) {
             chart.data.datasets[i].data = datasetsBasic[i].data;            
         }

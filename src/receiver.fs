@@ -12,6 +12,8 @@ type Category =
    uiElementInstructions : string array list;   
   }
 
+let dataRequest classname fieldname callback= 
+
 
 let removeChar (unwanted : string) (input:string)=
     input.Replace(unwanted,"")

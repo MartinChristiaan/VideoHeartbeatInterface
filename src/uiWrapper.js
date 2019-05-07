@@ -4,8 +4,19 @@ module.exports = {
         parent.appendChild(child);
 
     },
+    SetSliderValue:function(slider,value)
+    {
+        slider.value = value     
+    },
+    SetSliderOnInput:function(slider,onchange)
+    {
+        slider.oninput = function() {
+            onchange(this.value)
+            }  
+    },
 
-    CreateSlider:function(min,max,value,onchange)
+
+    CreateSlider:function(min,max,step)
     {
         var slider =document.createElement("input")
         slider.type = "range"
@@ -13,11 +24,8 @@ module.exports = {
         slider.min = min
         slider.className = "slider"
         slider.max = max
-        slider.step = (max-min)/100
-        slider.value = value
-        slider.oninput = function() {
-            onchange(this.value)
-            }
+        slider.step = step
+        slider.value = (min + max)/2
         return slider
     },
     CreateNumericInput:function(value,onchange)

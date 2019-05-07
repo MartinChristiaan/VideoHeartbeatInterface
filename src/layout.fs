@@ -18,7 +18,9 @@ let createElement eltype elclass =
 
 type layoutWrapper = 
     abstract AddToParent : HTMLElement -> HTMLElement -> unit
-    abstract CreateSlider  : float -> float -> float -> (float -> unit) -> HTMLElement
+    abstract SetSliderValue : Element -> float -> unit
+    abstract SetSliderOnInput : Element -> (float -> unit) -> unit
+    abstract CreateSlider  : float -> float -> float -> HTMLElement
     abstract CreateNumericInput  : float -> (float -> unit) -> HTMLElement
     abstract AdjustNumericInput  : string -> float -> (float -> unit) -> HTMLElement
     abstract SetType  :  string -> HTMLElement-> HTMLElement

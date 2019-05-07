@@ -4,6 +4,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="JQuery" />
+    <Compile Include="util.fs" />
+    <Compile Include="pythonTypes.fs" />
     <Compile Include="communication.fs" />
     <Compile Include="receiver.fs" />
     <Compile Include="layout.fs" />
