@@ -18,7 +18,7 @@ module.exports = {
         }, wait);
                   
     },
-    updateTarget:function(url,classnamefieldname,valuetype,value)
+    updateTarget:function(url,classname,fieldname,valuetype,value)
     {       
         $.ajax({
             url: url,    //Your api url

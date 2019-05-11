@@ -37,7 +37,7 @@ let uiutil : layoutWrapper = jsNative
 
  
 let addToControl element = uiutil.AddToParent controldiv element
-
+let addToVisual element = uiutil.AddToParent visualdiv element
 let addChildren parent children =
     children|>Seq.iter(fun child -> uiutil.AddToParent parent child)
     

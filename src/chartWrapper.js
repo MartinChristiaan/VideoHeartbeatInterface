@@ -1,6 +1,6 @@
 module.exports = {
     // parseJson : string -> string
-    CreateChart: function (xvalues,yvalues,labels,ctx) {
+    CreateChart: function (xvalues,yvalues,labels,xaxislabel,ctx) {
         var chartColors = [
              'rgb(255, 99, 132)',
              'rgb(255, 159, 64)',
@@ -14,22 +14,32 @@ module.exports = {
         
     let datasets = []
         for (let i = 0; i < labels.length; i++) {
+            data = yvalues[i]
+            if(data.length == 0)
+            {
+                data = []
+            }
             d = {
                 label : labels[i],
-                data : yvalues[i],
+                data : data,
                 backgroundColor : 'rgba(0, 0, 0, 0)',
                 borderColor : chartColors[i],
                 pointRadius: 0,
             }
             datasets = datasets.concat(d)          
         }
+    labels = xvalues
+    if(xvalues.length == 0)
+    {
+        labels = []
+    }
 
     var myChart = new Chart(ctx, {
         type: 'line',
         
 
         data:{
-            labels : xvalues,
+            labels : labels,
             datasets : datasets
         },
         options: {
@@ -60,7 +70,7 @@ module.exports = {
                     },
                     scaleLabel: {
                         display: true,
-                        labelString: "Time (s)"
+                        labelString: xaxislabel
                       }
                 }],
                 yAxes: [{
@@ -80,6 +90,8 @@ module.exports = {
 
     AppendTimeSeries:function(chart,values,time)
     {
+ 
+
         for (let i = 0; i < values.length; i++) {
             chart.data.datasets[i].data.push(values[i]);            
         }        
@@ -97,13 +109,12 @@ module.exports = {
     },
     
 
-    UpdateData:function(ctx,x,datasetsBasic)
+    UpdateData:function(chart,data)
     {
-        var chart = ctx.data('graph');
-        for (let i = 0; i < chart.data.datasets.length; i++) {
-            chart.data.datasets[i].data = datasetsBasic[i].data;            
+        for (let i = 1; i < data.length; i++) {
+            chart.data.datasets[i-1].data = data[i];            
         }
-        chart.data.labels =x
+        chart.data.labels =data[0]
         chart.update()
     }
    

@@ -2,36 +2,43 @@ module UIElements
 open Fable.Import.Browser
 open Layout
 open Communication
+open PythonTypes
 
-
-let createSliderWidget (classname:ClassName) (fieldname:FieldName) name min max step =
+let createSliderWidget name min max step (classname,fieldname) data =
     
     let widgetContainer = document.createElement("div")
     widgetContainer.setAttribute("class","widgetcontainer")
     let text = createDefaultUIHeader name
-    
-    // let onSliderValueChange newvalue =
-    //    text.innerText <- name + " : "+ newvalue.ToString()
-
     let slider = uiutil.CreateSlider min max step 
-    slider.className <- slider.className + " SliderData " + classname + " " + fieldname 
-    createStandardUIContainer text slider 
-
-let connectSlider (dataListener:Element*ClassName*FieldName) (data : string) =
-    let slider,classname,fieldname = dataListener
-    let text = slider.parentElement.children.[0]:?>HTMLElement
-    let name = text.innerText
-
     let updateSlider value =
         (http.updateTarget (BaseURL+updateTargetURL) classname fieldname "float" (string value))
         text.innerText <- name + " : "+ value.ToString()
+        console.log "Change"
     
     uiutil.SetSliderValue slider (float data)
     text.innerText <- name + " : "+ data
     uiutil.SetSliderOnInput slider updateSlider
-   
-let connectSwitch (dataListener:Element*ClassName*FieldName) (data : string) = 
-    let switch,classname,fieldname = dataListener
+
+
+    createStandardUIContainer text slider 
+
+// let connectSlider (dataListener:Element*ClassName*FieldName) (data : string) =
+//     let slider,classname,fieldname = dataListener
+//     let text = slider.parentElement.children.[0]:?>HTMLElement
+//     let name = text.innerText
+
+
+
+let createSwitchWidget label (classname,fieldname) data =
+    let widgetContainer = document.createElement("div")
+    widgetContainer.setAttribute("class","widgetcontainer")
+    let uiname = label
+    let text = createDefaultUIHeader uiname
+    let switch = createElement "input"  ("switch is-rounded " + "SwitchData" + " " + classname + " " + fieldname)|>uiutil.SetType "checkbox"
+  
+    let label = createElement "label" ""
+    let subdiv = createElement "div" ""
+
     let mutable isChecked = data = "True"
     if isChecked then
         switch.setAttribute("Checked","checked")
@@ -44,21 +51,12 @@ let connectSwitch (dataListener:Element*ClassName*FieldName) (data : string) =
         else
             switch.removeAttribute("Checked")
         http.updateTarget (BaseURL+updateTargetURL) classname fieldname "bool" (string isChecked)
-    switch.parentElement.onclick <-(fun x -> communicateInputData())
+    subdiv.onclick <-(fun x -> communicateInputData())
 
-let createSwitchWidget label classname fieldname =
-    let widgetContainer = document.createElement("div")
-    widgetContainer.setAttribute("class","widgetcontainer")
-    let uiname = label
-    let text = createDefaultUIHeader uiname
-    let switch = createElement "input"  ("switch is-rounded " + "SwitchData" + " " + classname + " " + fieldname)|>uiutil.SetType "checkbox"
-  
-    let label = createElement "label" ""
-    let subdiv = createElement "div" ""
     addChildren subdiv [switch;label] 
     createStandardUIContainer text subdiv    
 
-let createButtonWidget label classname method =
+let createButtonWidget label (classname,method) =
     
     let uiname = label
     let button = createElement "button" "button"
@@ -73,3 +71,10 @@ let createButtonWidget label classname method =
 
 // let createHeartbeatWidget = 
 
+let createClassContainer (categoryname : string)  =
+    let categorysubContainer = createElement "div" "categoryContainer"
+    let categoryContainer = createElement "div" "categoryMainContainer card  has-text-centered"
+    let categoryLabel = createElement("p") "card is-capitalized"
+    categoryLabel.innerText <- categoryname
+    addChildren categoryContainer [categoryLabel; categorysubContainer]
+    categoryContainer,categorysubContainer

@@ -26,14 +26,36 @@ let fancyDropDownBtn name = "<div class=\"dropdown-trigger\">
                     </button>
                   </div>"
 
-let connectDropDown (dataListener:Element*ClassName*FieldName) (data : string) = 
-    let dropdown,classname,fieldname = dataListener
-                                    // menu         content        
-    let dropDownElements = dropdown.childNodes.[1].childNodes.[0].childNodes|>weirdListToList
+
+let createDropDownMenu labeltxt (options:string list) (classname,fieldname) data =
+       
     
-    let label = ((((dropdown:?>HTMLElement).children.[0]:?>HTMLElement).children.[0]:?>HTMLElement).children.[0]:?>HTMLElement)       
+    let dropdown = document.createElement("div")
+    dropdown.className <- "dropdown"
+
+    let hideDropDown reset x = 
+         dropdown.className <- "dropdown" 
+         dropdown.onclick <-reset
+
+    let rec unhideDropDown x =
+        dropdown.className <- "dropdown is-active" 
+        let hideDropDownFun = hideDropDown unhideDropDown
+        dropdown.onclick <-hideDropDownFun
+    dropdown.onclick<-unhideDropDown    
+
+    let ddbtn = fancyDropDownBtn options.[0]|> createElementFromHTML:?>HTMLElement
+    
+    let dropDownElements = options|>Seq.map createDropDownOption|>Seq.toList 
+    let content = createElement "div" "dropdown-content"
    
-    console.log(label )
+    addChildren content dropDownElements
+    let menu = createElement "div" "dropdown-menu"
+    menu.setAttribute("role","menu")
+   
+                                   // menu         content        
+ 
+    
+    let label = (ddbtn.children.[0]:?>HTMLElement).children.[0]:?>HTMLElement 
     
   
     let dropDownOnSelect (dropDownElement : HTMLElement) x = 
@@ -52,39 +74,12 @@ let connectDropDown (dataListener:Element*ClassName*FieldName) (data : string) =
          dropDownElement.className<-"dropdown-item" 
 
     let options = dropDownElements|>List.map(fun x -> x.innerText)
-    options|>console.log
-    console.log data
+
+
     let defaultIdx = options|>List.findIndex(fun x -> x = data)
     dropDownOnSelect dropDownElements.[defaultIdx] defaultIdx
-
-
-
-    ()
-
-let createDropDownMenu labeltxt (options:string list) classname fieldname =
-       
-    
-    let dropdown = document.createElement("div")
-    dropdown.className <- "dropdown DropDownData " + classname  + " " + fieldname
-
-    let hideDropDown reset x = 
-         dropdown.className <- "dropdown DropDownData " + classname  + " " + fieldname
-         dropdown.onclick <-reset
-
-    let rec unhideDropDown x =
-        dropdown.className <- "dropdown is-active DropDownData " + classname  + " " + fieldname
-        let hideDropDownFun = hideDropDown unhideDropDown
-        dropdown.onclick <-hideDropDownFun
-    dropdown.onclick<-unhideDropDown    
-
-    let ddbtn = fancyDropDownBtn options.[0]|> createElementFromHTML:?>HTMLElement
-    
-    let dropDownElements = options|>Seq.map createDropDownOption|>Seq.toList 
-    let content = createElement "div" "dropdown-content"
+ 
    
-    addChildren content dropDownElements
-    let menu = createElement "div" "dropdown-menu"
-    menu.setAttribute("role","menu")
     addChildren menu [content]
     addChildren dropdown [ddbtn;menu]
     let header = createDefaultUIHeader labeltxt

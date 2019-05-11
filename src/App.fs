@@ -11,51 +11,41 @@ open Dropdowns
 open PythonTypes
 
 
-
+open System
+open Util
 // createslider
-getTargets [SkinClassifier_minh;SkinClassifier_maxh] [|console.log;console.log|]
+//let createHueSlider : DataCallback = 
 
 
-
-// type DataRetreiver = string -> unit
-// type DataRequest = HTMLElement * DataRetreiver
-// type ConnectionMethod = (Element*ClassName*FieldName) -> string -> unit
-// let someswitch = createSwitchWidget "Enabled" "SkinClassifier" "enabled"
-// let someDropDown = createDropDownMenu "Display" ["Source";"Post FaceDetect";"Post SkinClassifier"] "Main" "display"  
-
-// let slider = createSliderWidget "SkinClassifier" "minh" "Min Hue" 0.0 255.0 255.0
-
-// let someButton = createButtonWidget "DoSomething" "Main" "resetMeasurement"
-
-// addChildren controldiv [someDropDown;someswitch;slider;someButton]
-
-// let fpschart = createTimeFigure [|"FPS"|] "Main" "fps"
-// addChildren visualdiv [fpschart]
-
-// let getDataListeners dataClassname = 
-//     let sliderDataElements = document.getElementsByClassName(dataClassname)
-//     let mutable dataListeners : (Element*ClassName*FieldName) list = []
+let createClass name (elements:((ClassName*FieldName)*DataCallback) list) (otherElements:HTMLElement list) = 
+    let classParent,classContainer = createClassContainer name
+    getTargets elements (addChildren classContainer)
+    otherElements|>List.iter (uiutil.AddToParent classContainer) 
+    classParent|> addToControl 
+let setupfigures (input) =
+    let dataAdresses =  input|>List.map(fun ((updateMethods,elements),dataAdresses) -> dataAdresses)
+    let callbacks =  input|>List.map(fun ((updateMethods,elements),dataAdresses) -> updateMethods)|>List.toArray
+    getFigureTargets dataAdresses callbacks DateTime.Now 0.0
+    input|>List.map(fun ((_,elements),_) -> elements)|>List.iter addToVisual 
     
-//     for i in [0..(int sliderDataElements.length-1)] do
-//         let classes  = sliderDataElements.[i].classList
-//         for j in [0..(int classes.length-1)] do
-//             if classes.[j] = dataClassname then
-//                 dataListeners <- dataListeners @ [(sliderDataElements.[i],classes.[j+1],classes.[j+2])]
-//     let classnames = dataListeners|>List.map(fun (el,cn,fldn) -> cn)|>String.concat " "  // create dataRequest
-//     console.log dataClassname
-//     let fieldnames = dataListeners|>List.map(fun (el,cn,fldn) -> fldn)|>String.concat " "  // create dataRequest
-//     dataListeners,classnames,fieldnames
 
-// let updateUIElement dataListeners (connectionMethod : ConnectionMethod) (data : string) =
-//     let items= data.Split ','|> splitInto 2
-//     Seq.iter2 connectionMethod dataListeners items.[1]
+createClass "Main" [Main_display,createDropDownMenu "Display" ["Source";"Post Face";"Post skin"]] 
+                    [createButtonWidget "Reset Measurements" Main_resetMeasurement]
 
-// let requestConnection  (connectionMethod:ConnectionMethod) (dataListeners,classnames,fieldnames)= 
-//     let url = (BaseURL+GetTargetsURL)
-//     console.log url
-//     http.getTargets url classnames fieldnames (updateUIElement  dataListeners connectionMethod) 0
-//     ()
-// let DataClasses = ["SliderData";"SwitchData";"DropDownData"]
-// let connectionMethods : ConnectionMethod list= [connectSlider;connectSwitch;connectDropDown]
-// List.map getDataListeners DataClasses|>List.iter2 requestConnection connectionMethods  
+createClass "SkinClassifier" [SkinClassifier_minh,createSliderWidget "Min Hue" 0.0 255.0 1.0;
+                              SkinClassifier_maxh,createSliderWidget "Max Hue" 0.0 255.0 1.0;
+                              SkinClassifier_mins,createSliderWidget "Min Saturation" 0.0 255.0 1.0;
+                              SkinClassifier_maxs,createSliderWidget "Max Saturation" 0.0 255.0 1.0;
+                              SkinClassifier_minv,createSliderWidget "Min Value" 0.0 255.0 1.0;
+                              SkinClassifier_maxv,createSliderWidget "Max Value" 0.0 255.0 1.0;
+                              SkinClassifier_enabled,createSwitchWidget "Enabled";]
+                               [] 
+                               
+
+
+setupfigures [createTimeFigure [|"FPS"|],[Main_fps];
+              createTimeFigure [|"Max Hue"|],[SkinClassifier_maxh]
+              createReplacingFigure [|"Normalized Amplitude"|] "Frequency (BPM)",[Evaluator_f;Evaluator_normalized_amplitude]]
+
+
 

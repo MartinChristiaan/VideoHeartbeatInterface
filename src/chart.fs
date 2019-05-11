@@ -5,7 +5,8 @@ open Fable.Import.Browser
 open System
 open Layout
 open Communication
-
+open PythonTypes
+open Util
 type Dataset = 
     {
         data : float array ;
@@ -13,9 +14,9 @@ type Dataset =
     }
 
 type ChartWrapper = 
-    abstract CreateChart : float array -> float array array -> string array-> HTMLElement-> obj
-    abstract AppendTimeSeries  : obj -> string array -> string -> unit 
-    abstract UpdateData  : obj -> string array -> Dataset array -> unit 
+    abstract CreateChart : float array -> float array array -> string array -> string-> HTMLElement-> obj
+    abstract AppendTimeSeries  : obj -> float array -> string -> unit 
+    abstract UpdateData  : obj -> float array array -> unit 
 
 let float2string (flt:float) = 
     flt.ToString()
@@ -29,30 +30,20 @@ let splitInto (count : int) (arr :  array<'T>) =
     Array.init count (fun index -> arr.[index * splitsize..(index+1)*splitsize-1])
 
 
-let updateTime = 60
 
 
-let rec updateTimeFigure figure classnames fieldnames (prevDateTime:DateTime) (prevtime : float)  (data:string) =
-    let values = data.Split ','|> splitInto 2 
-    let curTime = DateTime.Now
-    let dTime = (curTime-prevDateTime).Milliseconds|>float|>(fun x-> x/1000.0)
-    let time = prevtime+dTime
-
+let updateTimeFigure figure  (data:string array) (time:Time) =
+    let values = data|>Array.map float 
+    cUtil.AppendTimeSeries figure values (time.ToString().[0..4])   
     
-    cUtil.AppendTimeSeries figure values.[1] (time.ToString().[0..4])
-    http.getTargets (BaseURL+GetTargetsURL) classnames fieldnames (updateTimeFigure figure classnames fieldnames curTime time) updateTime
 
-
-let rec updateReplacingFigure figure classnames fieldnames (data:string) =
-    let values = data.Split ','|> splitInto 2 
-    let curTime = DateTime.Now
-
+let updateReplacingFigure figure  (data:string array) (time:Time) =
+    let values = data|>Array.map (fun x -> x.Split('@'))|> Array.map (Array.map float) 
+    cUtil.UpdateData figure values 
     
-    cUtil.AppendTimeSeries figure values.[1] (time.ToString().[0..4])
-    http.getTargets (BaseURL+GetTargetsURL) classnames fieldnames (updateTimeFigure figure classnames fieldnames curTime time) updateTime
 
 
-let createTimeFigure (ylabels : string array) classnames fieldnames = 
+let createTimeFigure (ylabels : string array) = 
 
     let canvascontainer = createElement "div" "figureContainer"
     let canvas = createElement "canvas" "canvas"
@@ -60,35 +51,30 @@ let createTimeFigure (ylabels : string array) classnames fieldnames =
     
     //datasets <- states|>Seq.map(fun nv -> {label = nv.name; data = [|nv.value|]})|>Seq.toArray 
     let yvalues = Array.init ylabels.Length (fun x -> [||])
-    let figure = cUtil.CreateChart [||] yvalues ylabels canvas
-    // invoke update
-    let startTime = DateTime.Now
-    http.getTargets (BaseURL+GetTargetsURL) classnames fieldnames (updateTimeFigure figure classnames fieldnames startTime 0.0) updateTime
-    canvascontainer
+    let figure = cUtil.CreateChart [||] yvalues ylabels "Time (s)" canvas 
+    let updateMethod:TimedDataCallback = updateTimeFigure figure
+    updateMethod,canvascontainer //,(updateTimeFigure figure dataAdresses startTime 0.0)
     
 
-let createReplacingFigure (ylabels : string array) classnames fieldnames = 
+let createReplacingFigure (ylabels : string array) xaxisLabel = 
 
     let canvascontainer = createElement "div" "figureContainer"
     let canvas = createElement "canvas" "canvas"
     uiutil.AddToParent canvascontainer canvas
     
-    //datasets <- states|>Seq.map(fun nv -> {label = nv.name; data = [|nv.value|]})|>Seq.toArray 
     let yvalues = Array.init ylabels.Length (fun x -> [||])
-    let figure = cUtil.CreateChart [||] yvalues ylabels canvas
-    // invoke update
-    let startTime = DateTime.Now
-    http.getTargets (BaseURL+GetTargetsURL) classnames fieldnames (updateTimeFigure figure classnames fieldnames startTime 0.0) updateTime
-    canvascontainer
+    let figure = cUtil.CreateChart [||] yvalues ylabels xaxisLabel canvas
+    let updateMethod = updateReplacingFigure figure 
+    updateMethod,canvascontainer
 
 
-let addValues existing newvalues =
-    Array.append existing newvalues |> last 200
+// let addValues existing newvalues =
+//     Array.append existing newvalues |> last 200
 
-let addValueToDataset(ds:Dataset) (values : float array) =
-    {ds with data = addValues ds.data values}
-let replaceDataInDataset (ds:Dataset) (values : float array) =
-    {ds with data = values}
+// let addValueToDataset(ds:Dataset) (values : float array) =
+//     {ds with data = addValues ds.data values}
+// let replaceDataInDataset (ds:Dataset) (values : float array) =
+//     {ds with data = values}
 
 // let updateFigure(canvas, x:float array, datasets:Dataset array,updatePolicy:UpdatePolicy)(instructions : string array) =
 //     let noDatasets = datasets.Length

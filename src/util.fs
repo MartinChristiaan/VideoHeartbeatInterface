@@ -1,4 +1,5 @@
 module Util
+
 let last n xs = 
     let len = Array.length xs
     if len > n then
@@ -16,3 +17,5 @@ let map3 f xs bs cs = Array.map2 f xs bs <*> cs
 let map4 f xs bs cs ds = map3 f xs bs cs <*> ds
 let map5 f xs bs cs ds es = map4 f xs bs cs ds <*>  es
 
+type Time = float
+type TimedDataCallback = string array -> Time -> unit
