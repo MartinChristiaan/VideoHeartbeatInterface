@@ -27,7 +27,7 @@ let fancyDropDownBtn name = "<div class=\"dropdown-trigger\">
                   </div>"
 
 
-let createDropDownMenu labeltxt (options:string list) (classname,fieldname) data =
+let createDropDownMenu labeltxt (options:string list) (classname,fieldname) (data:string) =
        
     
     let dropdown = document.createElement("div")
@@ -59,7 +59,7 @@ let createDropDownMenu labeltxt (options:string list) (classname,fieldname) data
     
   
     let dropDownOnSelect (dropDownElement : HTMLElement) x = 
-        http.updateTarget (BaseURL+updateTargetURL) classname fieldname "string" dropDownElement.innerText 
+        http.updateTarget (BaseURL+updateTargetURL) classname fieldname "enum" dropDownElement.innerText 
         dropDownElements|>Seq.iter(fun x -> x.className <- "dropdown-item")
         dropDownElement.className<-"dropdown-item is-active"
         label.innerText <- dropDownElement.innerText
@@ -75,8 +75,8 @@ let createDropDownMenu labeltxt (options:string list) (classname,fieldname) data
 
     let options = dropDownElements|>List.map(fun x -> x.innerText)
 
-
-    let defaultIdx = options|>List.findIndex(fun x -> x = data)
+    console.log data
+    let defaultIdx = options|>List.findIndex(fun x -> x = (data.Split('.').[1] ))
     dropDownOnSelect dropDownElements.[defaultIdx] defaultIdx
  
    
