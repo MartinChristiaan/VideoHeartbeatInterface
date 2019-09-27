@@ -21,7 +21,8 @@ type HTTPWrapper =
     abstract getTargets : URL -> ClassName -> FieldName -> (string -> unit) -> int-> unit
     abstract updateTarget : URL -> ClassName -> FieldName -> Value -> ValueType -> unit
     abstract invokeMethod : URL -> ClassName -> MethodName -> unit
-
+    abstract performRepeatedly :(unit->unit) -> float -> unit
+    abstract performAfter :(unit->unit) -> float -> unit
 
 [<Import("*", "./httpWrapper")>]
 let http : HTTPWrapper = jsNative
@@ -74,7 +75,7 @@ let rec getFigureTargets (dataAdresses : (ClassName*FieldName) list list) (callb
     getFigureTargets dataAdresses callbacks curTime time
 
 
-  http.getTargets (BaseURL+GetTargetsURL) classnameString fieldnameString callback 60
+  http.getTargets (BaseURL+GetTargetsURL) classnameString fieldnameString callback 10
 
 
 let getRequest(target:string)(callback : string -> unit) =
@@ -82,6 +83,8 @@ let getRequest(target:string)(callback : string -> unit) =
     |> Promise.bind (fun res -> res.text())
     |> Promise.map callback
 
-
+let updateTarget (address : ClassName*FieldName) (value : Value) (valueType : ValueType) = 
+    let classname,fieldname = address
+    http.updateTarget (BaseURL+updateTargetURL) classname fieldname valueType value
 
 

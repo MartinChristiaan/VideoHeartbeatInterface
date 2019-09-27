@@ -2,7 +2,13 @@
 {   
     display: grid;
     grid-template-columns: 450px auto;
-    background: white    
+    background: black    
+}
+.body
+{
+    background: black;
+    margin: 0;
+    
 }
 
 .widgetcontainer

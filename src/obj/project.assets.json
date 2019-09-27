@@ -85,7 +85,7 @@
           "lib/netstandard2.0/Fable.React.dll": {}
         }
       },
-      "FSharp.Core/4.5.2": {
+      "FSharp.Core/4.6.2": {
         "type": "package",
         "compile": {
           "lib/netstandard1.6/FSharp.Core.dll": {}
@@ -193,7 +193,7 @@
       ]
     },
     "Fable.Elmish/2.0.0": {
-      "sha512": "evowsP1xwY2q8tj0wuS/bQEFnlYnl9MJrkxbB5khDZXID4TtJp5W/Em/i1A23OuIJWeHizniUI5y4h1+gP7I9Q==",
+      "sha512": "zrg+vDk6HI4SnZy34nYuFovKQNm5Y+lZ5wEeZZQERpl5fgaJ3WpN9bi6yvi5dCcnTD0aO2kdNWkjlU1UXIs6gg==",
       "type": "package",
       "path": "fable.elmish/2.0.0",
       "files": [
@@ -241,7 +241,7 @@
       ]
     },
     "Fable.PowerPack/2.0.1": {
-      "sha512": "VxHGkskMnijSZppjmdL/SZOrechv+AbhUqBJS2J+fZBDRZrO2iDd6uRAF4lmHggHtwYtXBWFkn/7/dPgkuFEVA==",
+      "sha512": "9F0u5oGfZ4gegAd39PZd/2gy4Us58SxzqISZF2qRL7eIF6+jCWvj5KybBM2bHgYC789D9A4F3lKLpCH5eKXwUg==",
       "type": "package",
       "path": "fable.powerpack/2.0.1",
       "files": [
@@ -266,7 +266,7 @@
       ]
     },
     "Fable.React/4.0.1": {
-      "sha512": "aV1n6LQfdvTK+t3Cq1gYiKfr8UfCJhfJkaLxk2qXI91JWlMw76fkEuBy1I8g7UgF07n6wwzR8KOnIb4M3JlN1g==",
+      "sha512": "KjKOAZguauxxp9DVmHM/MUptz7Wig2YTVWovEim2wA5IdPN5eWueJOYUkHBjKWq6//gzv0dbb4qbu80YyiJqsw==",
       "type": "package",
       "path": "fable.react/4.0.1",
       "files": [
@@ -283,18 +283,17 @@
         "lib/netstandard2.0/Fable.React.xml"
       ]
     },
-    "FSharp.Core/4.5.2": {
-      "sha512": "Pe3EDp9oBjQ3c3fvZAJsw7XFLHECS3zn3P7MSqsJy3sFYR6jvTgxxnCFeePR1JHiWyZ3bm+RZAjchqVYk61adA==",
+    "FSharp.Core/4.6.2": {
+      "sha512": "/waJ3a7u7MjFOGnXOfokbG1N1FH7VCmP3Fw1tJ8Q75kIj60LYBL3eYzab9hDimL5E21uhQ/1wf04M3dRAYemlw==",
       "type": "package",
-      "path": "fsharp.core/4.5.2",
+      "path": "fsharp.core/4.6.2",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "fsharp.core.4.5.2.nupkg.sha512",
+        "fsharp.core.4.6.2.nupkg.sha512",
         "fsharp.core.nuspec",
         "lib/net45/FSharp.Core.dll",
         "lib/net45/FSharp.Core.optdata",
-        "lib/net45/FSharp.Core.resources.dll",
         "lib/net45/FSharp.Core.sigdata",
         "lib/net45/FSharp.Core.xml",
         "lib/net45/cs/FSharp.Core.resources.dll",
@@ -332,7 +331,7 @@
       ]
     },
     "Microsoft.NETCore.Platforms/1.1.0": {
-      "sha512": "bLpT1f/SFlO1CzqXG12KnJzpZs6lv24uX2Rzi4Fmm0noJpNlnWRVryuO3yK18Ca04t/YHcO1e1Z0WDfjseqNzw==",
+      "sha512": "kz0PEW2lhqygehI/d6XsPCQzD7ff7gUJaVGPVETX611eadGsA3A877GdSlU0LRVMCTH/+P3o2iDTak+S08V2+A==",
       "type": "package",
       "path": "microsoft.netcore.platforms/1.1.0",
       "files": [
@@ -347,7 +346,7 @@
       ]
     },
     "NETStandard.Library/2.0.3": {
-      "sha512": "IPw7J1ThImD/gTGAGJWDUpp1CgnKPh33xszVwFAfgesq1o9xL3JhhFxVDWoIT4RbyDpv4tx2R5iNFaU+k93lmA==",
+      "sha512": "st47PosZSHrjECdjeIzZQbzivYBJFv6P2nv4cj2ypdI204DO+vZ7l5raGMiX4eXMJ53RfOIg+/s4DHVZ54Nu2A==",
       "type": "package",
       "path": "netstandard.library/2.0.3",
       "files": [
@@ -471,12 +470,11 @@
         "build/netstandard2.0/ref/netstandard.xml",
         "lib/netstandard1.0/_._",
         "netstandard.library.2.0.3.nupkg.sha512",
-        "netstandard.library.nuspec",
-        "paket-installmodel.cache"
+        "netstandard.library.nuspec"
       ]
     },
     "Thoth.Json/2.0.0": {
-      "sha512": "zYwWFzn62/3zHAPIMbCSxUJhME+LVqjeisR5tGS2Mr3gYREhf0j7RfQte3gSqFjgy4m6ZqqBVL9e97VzG6echw==",
+      "sha512": "PQvKAB6YJSiMDYZVooB3gY3Z6d3WiZIQzysKwnM9G0Wfb2hxQtC2X3sj1F/Ze+0F5ur7zlt+/SKXaenrZYcSlQ==",
       "type": "package",
       "path": "thoth.json/2.0.0",
       "files": [
@@ -496,32 +494,30 @@
   },
   "projectFileDependencyGroups": {
     ".NETStandard,Version=v2.0": [
-      "FSharp.Core >= 4.5.2",
+      "FSharp.Core >= 4.6.2",
       "Fable.Core >= 2.0.3",
       "Fable.Elmish.React >= 2.2.0",
       "NETStandard.Library >= 2.0.3"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\marti\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "/home/martin/.nuget/packages/": {},
+    "/usr/share/dotnet/sdk/NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\marti\\Source\\Repos\\VideoHeartbeatInterface\\src\\App.fsproj",
+      "projectUniqueName": "/home/martin/repos/AudioAnalysisClient/src/App.fsproj",
       "projectName": "App",
-      "projectPath": "C:\\Users\\marti\\Source\\Repos\\VideoHeartbeatInterface\\src\\App.fsproj",
-      "packagesPath": "C:\\Users\\marti\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\marti\\Source\\Repos\\VideoHeartbeatInterface\\src\\obj\\",
+      "projectPath": "/home/martin/repos/AudioAnalysisClient/src/App.fsproj",
+      "packagesPath": "/home/martin/.nuget/packages/",
+      "outputPath": "/home/martin/repos/AudioAnalysisClient/src/obj/",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        "/usr/share/dotnet/sdk/NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\marti\\Source\\Repos\\VideoHeartbeatInterface\\NuGet.Config",
-        "C:\\Users\\marti\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/home/martin/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netstandard2.0"
@@ -540,7 +536,7 @@
         "dependencies": {
           "FSharp.Core": {
             "target": "Package",
-            "version": "[4.5.2, )"
+            "version": "[4.6.2, )"
           },
           "Fable.Core": {
             "target": "Package",

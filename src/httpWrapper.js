@@ -49,7 +49,39 @@ module.exports = {
             }
         })
         ;           
+    },
+    performRepeatedly:function(func,sleeptime)
+    {
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+          }
+          
+          async function demo() {
+            while(true)
+            {
+                await sleep(sleeptime);
+                func();
+            }
+        }
+          
+          demo();
+    },
+    performAfter:function(func,sleeptime)
+    {
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+          }
+          
+          async function demo() {
+           
+                await sleep(sleeptime);
+                func();
+           
+        }
+          
+          demo();
     }
+
 
 
 } 

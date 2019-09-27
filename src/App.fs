@@ -9,6 +9,16 @@ open Communication
 open UIElements
 open Dropdowns
 open PythonTypes
+open Fable.Core.JsInterop
+open Fable.Import.Browser
+open Fable.Import
+open Fable
+open Fable.Core
+open Fable.Core.JsInterop
+open Fable.Import.Browser
+
+open Browser
+open Fable.Core.JsInterop
 
 
 open System
@@ -28,39 +38,41 @@ let setupfigures (input) =
     getFigureTargets dataAdresses callbacks DateTime.Now 0.0
     input|>List.map(fun ((_,elements),_) -> elements)|>List.iter addToVisual 
     
-console.log Main_display_options
-createClass "Main" [Main_display,createDropDownMenu "Display" Main_display_options] 
-                    [createButtonWidget "Reset Measurements" Main_resetMeasurement]
 
-createClass "SkinClassifier" [SkinClassifier_minh,createSliderWidget "Min Hue" 0.0 255.0 1.0;
-                              SkinClassifier_maxh,createSliderWidget "Max Hue" 0.0 255.0 1.0;
-                              SkinClassifier_mins,createSliderWidget "Min Saturation" 0.0 255.0 1.0;
-                              SkinClassifier_maxs,createSliderWidget "Max Saturation" 0.0 255.0 1.0;
-                              SkinClassifier_minv,createSliderWidget "Min Value" 0.0 255.0 1.0;
-                              SkinClassifier_maxv,createSliderWidget "Max Value" 0.0 255.0 1.0;
-                              SkinClassifier_blursize, createSliderWidget "Blur size" 0.0 40.0 1.0;
-                              SkinClassifier_elipse_size, createSliderWidget "Elipse Size" 0.0 20.0 1.0;
-                              SkinClassifier_dilations, createSliderWidget "Dilations" 0.0 10.0 1.0;
-                              SkinClassifier_erosions, createSliderWidget "Erotions" 0.0 10.0 1.0;
-                              SkinClassifier_classifierType,createDropDownMenu "Classifier Type" SkinClassifier_classifierType_options;
-                             
-                              SkinClassifier_enabled,createSwitchWidget "Enabled";]
-                               [] 
+//createClass "Main" [Main_display,createDropDownMenu "Display" Main_display_options] 
+  //                  [createButtonWidget "Reset Measurements" Main_resetMeasurement]
 
-createClass "Face Detection" [FaceTracker_enabled, createSwitchWidget "Enabled"]
-                            [createButtonWidget "Reset Tracker" FaceTracker_resetTracker]
+type AudioWrapper = 
+    abstract start_audio_player : float array -> float array -> (unit -> float)
+open Fable.Core.JsInterop
 
-createClass "Pulse Detection" [PulseDetector_useChrom,createSwitchWidget "Use Chrominance Method";
-                                PulseDetector_usePBV, createSwitchWidget "Use PBV Method"]
-                                []
-createClass "Recorder" [Recorder_enabled, createSwitchWidget "Enabled"]
-                        [createButtonWidget "Save Recording" Recorder_save_recording]                                
+[<Import("*", "./audiowrapper")>]
+let audioWrapper : AudioWrapper = jsNative
 
-setupfigures [createTimeFigure [|"FPS"|],[Main_fps];
-              createTimeFigure [|"Beats Per Minute (chrom)";"Beats Per Minute (PBV)"|],[PulseDetector_chromBPM;PulseDetector_PBVBPM];
-              createTimeFigure [|"Signal to Noise Ratio (chrom)";"Signal to Nouse Ratio (PBV)"|],[PulseDetector_chromSNR;PulseDetector_PBVSNR];
-              createTimeFigure [|"Num skin pixels"|],[SkinClassifier_num_skin_pixels];
-              createReplacingFigure [|"Normalized Amplitude (chrom)"; "Normalized Amplitde (PBV)"|] "Frequency (BPM)",[PulseDetector_f;PulseDetector_normalized_amplitude_chrom;PulseDetector_normalized_amplitude_PBV]]
+let oneset_times = [|5.0;5.0;5.0;10.0;|]
+let onset_frequenties = [|1.0;2.0;3.0;1.0|]
+let getDuration = audioWrapper.start_audio_player oneset_times onset_frequenties
+
+
+
+let func() = 
+    updateTarget Main_percent (getDuration()|>string) "float" 
+    let classname,methodname = Main_update_chroma
+    http.invokeMethod (BaseURL+invokeMethodURL) classname methodname 
+//http.performAfter func 5000.0
+
+
+
+
+//setupfigures [createReplacingFigure [|"Normalized Amplitude (chrom)"|] "Frequency",[Main_idx;Main_chroma]
+//              createTimeFigure [|"Onsets"|],[Main_curbeat]]
+
+
+// How to do the animation?
+
+// Capture inputs?
+
+
 
 
 
